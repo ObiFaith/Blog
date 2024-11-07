@@ -1,12 +1,24 @@
-import axios from "axios";
-
-export const getCSRFToken = async () => {
-  try {
-    const { data } = await axios('http://127.0.0.1:8000/token', {
-      withCredentials: true,
-    });
-    window.CSRF_TOKEN = data.csrf_token
-  } catch (error) {
-    console.error('Could not fetch CSRF token:', error);
-  }
-};
+export const api_url = import.meta.env.VITE_API_BASE_URL;
+export const formElements = [
+	{
+		type: 'text',
+		iconName: 'Mail',
+		inputName: 'email',
+		label: 'Email address',
+		placeholder: 'e.g. alex@email.com',
+	},
+	{
+		type: 'password',
+		iconName: 'LockKeyhole',
+		inputName: 'password',
+		label: 'Create password',
+		placeholder: 'At least 8 characters',
+	},
+	{
+		type: 'password',
+		iconName: 'LockKeyhole',
+		inputName: 'confirm_password',
+		label: 'Confirm password',
+		placeholder: 'At least 8 characters',
+	},
+];

@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
 import Metadata from '../components/Metadata';
-import { getCSRFToken } from '../constants/data';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const Root = () => {
-	getCSRFToken()
 	return (
 		<>
 			<Metadata
@@ -12,6 +12,12 @@ const Root = () => {
 				keywords="BlogIt, BlogIt Login, BlogIt Signup, Log into BlogIt, Start writing a blog"
 			/>
 			<Outlet />
+			<ToastContainer
+				limit={3}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
 		</>
 	);
 };

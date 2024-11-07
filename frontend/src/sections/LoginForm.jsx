@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { BtnPrimary, InputWithIcon } from '..';
 import { Form, Formik } from 'formik';
+import { formElements } from '../constants/data';
 
 const LoginForm = () => {
 	const LoginSchema = Yup.object().shape({
@@ -19,20 +20,9 @@ const LoginForm = () => {
 		>
 			{({ isSubmitting }) => (
 				<Form>
-					<InputWithIcon
-						type="text"
-						iconName="Mail"
-						inputName="email"
-						label="Email address"
-						placeholder="e.g. alex@email.com"
-					/>
-					<InputWithIcon
-						type="password"
-						label="Password"
-						iconName="LockKeyhole"
-						inputName="password"
-						placeholder="Enter your password"
-					/>
+					{formElements.slice(0, 2).map(element => (
+						<InputWithIcon key={element.inputName} {...element} />
+					))}
 					<BtnPrimary
 						name="Login"
 						className="w-full"

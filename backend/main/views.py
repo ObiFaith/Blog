@@ -1,25 +1,26 @@
+import json
 from .forms import SignupForm
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth import login
 from django.contrib.auth.models import User
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt
 
-# Create your views here.
-@ensure_csrf_cookie
-def token_view(request):
-  return JsonResponse({'csrf_token': request.META.get('CSRF_COOKIE')})
-
-def index(request):
-  return render(request, 'index.html')
-
+@csrf_exempt
 def signup_view(request):
   if request.method == 'POST':
-    form = SignupForm(request.POST)
+    try:
+      # Parse JSON data from request body
+      data = json.loads(request.body)
+    except json.JSONDecodeError:
+      return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    # Initialize form with parsed data
+    form = SignupForm(data)
     if form.is_valid():
       email = form.cleaned_data['email']
       password = form.cleaned_data['password']
 
+      # Create user and log them in
       user = User.objects.create_user(username=email, email=email, password=password)
       login(request, user)
       return JsonResponse({'message': 'User created successfully!'}, status=201)
